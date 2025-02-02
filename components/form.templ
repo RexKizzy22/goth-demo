@@ -1,0 +1,94 @@
+package components
+
+templ Form() {
+	<div class="backdrop" x-show="open">
+		<div class="modal">
+			<form
+				@submit="open = !open"
+				class="form"
+				x-data="{ openInput: '', high: '', low: '', close: '', volume: '', adj: '' }"
+				hx-post="/add"
+			>
+				<header class="form-header">
+					<div class="form-title">Add Stock Data for the Day</div>
+					<div class="form-close" @click="open = !open">&times;</div>
+				</header>
+				<div class="add-input">
+					<label for="open-input">Opening Price</label>
+					<input
+						x-mask="999.99"
+						x-model="openInput"
+						placeholder="000.00"
+						type="text"
+						name="open"
+						id="open-input"
+					/>
+				</div>
+				<div class="add-input">
+					<label for="high-input">Highest Price</label>
+					<input
+						x-mask="999.99"
+						x-model="high"
+						placeholder="000.00"
+						type="text"
+						name="high"
+						id="high-input"
+					/>
+				</div>
+				<div class="add-input">
+					<label for="low-input">Lowest Price</label>
+					<input
+						x-mask="999.99"
+						x-model="low"
+						placeholder="000.00"
+						type="text"
+						name="low"
+						id="low-input"
+					/>
+				</div>
+				<div class="add-input">
+					<label for="close-input">Closing Price</label>
+					<input
+						x-mask="999.99"
+						x-model="close"
+						placeholder="000.00"
+						type="text"
+						name="close"
+						id="close-input"
+					/>
+				</div>
+				<div class="add-input">
+					<label for="volume-input">Volume</label>
+					<input
+						x-mask="9999999"
+						x-model="volume"
+						placeholder="0000000"
+						type="text"
+						name="volume"
+						id="volume-input"
+					/>
+				</div>
+				<div class="add-input">
+					<label for="adjClose-input">Adjacent Closing Price</label>
+					<input
+						x-mask="999.99"
+						x-model="adj"
+						placeholder="000.00"
+						type="text"
+						name="adjClose"
+						id="adjClose-input"
+					/>
+				</div>
+				<footer class="form-footer">
+					<button
+						:disabled="!openInput || !high || !low || !close || !volume || !adj"
+						class="form-submit"
+						type="submit"
+					>
+						Submit Form
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+}

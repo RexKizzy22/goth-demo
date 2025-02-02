@@ -1,0 +1,207 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  padding: 0 5rem;
+}
+
+.body {
+  background-color: white;
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: beige;
+}
+
+.search {
+  width: 40%;
+}
+
+.addButton {
+  padding: 0.5rem 1rem;
+  background-color: cadetblue;
+  color: white;
+  width: 6rem;
+  font-size: 1.2rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.backdrop {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  padding: 1.5rem 2rem;
+  position: absolute;
+  z-index: 1000000;
+  margin: auto;
+  top: 10%;
+  left: 32%;
+  /* right: 40px; */
+  width: 40vw;
+  background-color: white;
+  border-radius: 3px;
+}
+
+form label {
+  font-size: .8rem;
+}
+
+form input {
+  display: inline-block;
+  width: 100%;
+  padding: 0.9rem;
+}
+
+.form div:not(:last-child) {
+  padding-bottom: 1rem;
+}
+
+.form add-input {
+  border-radius: 3px;
+}
+
+.add-input label {
+  margin-bottom: 1rem;
+}
+
+header.form-header {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.form-title {
+  text-align: center;
+}
+
+.form-close {
+  font-size: 2rem;
+  position: absolute;
+  top: -9px;
+  right: 0px;
+  cursor: pointer;
+}
+
+footer.form-footer {
+  margin: 2rem 0;
+  /* padding: 0 2rem; */
+  display: flex;
+  justify-content: center;
+}
+
+button.form-submit {
+  background-color: rgb(86, 118, 220);
+  color: white;
+  padding: 1rem;
+  width: 50%;
+  font-size: 1rem;
+  border-width: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.form-submit:disabled {
+  cursor: not-allowed;
+  background-color: lightgray;
+  color:antiquewhite
+}
+
+.table {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  height: 100%;
+}
+
+.title {
+  background-color: grey;
+  color: white;
+  padding: 1rem;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.row {
+  display: flex;
+  flex: 1 1 10%;
+}
+
+.row-item {
+  flex: 1 1 10%;
+  padding: 0.5rem;
+}
+
+.date {
+  background-color: azure;
+}
+
+.open {
+  background-color: lightgrey;
+}
+
+.high {
+  background-color: lightgreen;
+}
+
+.low {
+  background-color: lightcoral;
+}
+
+.close {
+  background-color: bisque;
+}
+
+.volume {
+  background-color: lavender;
+}
+
+.adjClose {
+  background-color: aquamarine;
+}
+
+@media screen and (max-width: 920px) {
+  .container {
+    padding: 0 2rem;
+  }
+
+  .table {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .row-item {
+    min-width: 1rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .container {
+    padding: 0 0.8rem;
+  }
+  
+  .table {
+    min-width: 1200px;
+  }
+}

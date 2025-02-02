@@ -23,3 +23,8 @@ go.work.sum
 
 # env file
 .env
+
+#templates
+*_templ.go
+*_templ.txt
+build-errors.log

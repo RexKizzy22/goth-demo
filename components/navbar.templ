@@ -1,0 +1,23 @@
+package components
+
+templ Navbar() {
+	<nav class="navbar">
+		<div style="font-size: 1.5rem;">Stock Price Data</div>
+		<form class="search">
+			<input
+				type="text"
+                name="search"
+				placeholder="Search by date"
+				id="search"
+				hx-get="/search"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target=".table"
+                hx-swap="outerHTML"
+			/>
+		</form>
+		<button class="addButton" @click="open = !open">
+			<span>&plus;</span>
+			Add
+		</button>
+	</nav>
+}
