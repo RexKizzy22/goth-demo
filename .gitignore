@@ -28,3 +28,4 @@ go.work.sum
 *_templ.go
 *_templ.txt
 build-errors.log
+.DS_Store
