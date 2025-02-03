@@ -74,7 +74,6 @@ func add(w http.ResponseWriter, r *http.Request) {
 	slices.Reverse(state.Rows)
 	state.Rows = append(state.Rows, nr)
 	slices.Reverse(state.Rows)
-	o := util.Paginate(r, DEFAULT_SIZE)
 
-	components.Table(state.Rows[o:(o+DEFAULT_SIZE)]).Render(r.Context(), w)
+	components.TableRow(nr).Render(r.Context(), w)
 }

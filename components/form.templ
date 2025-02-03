@@ -1,13 +1,15 @@
 package components
 
 templ Form() {
-	<div class="backdrop" x-show="open">
+	<div class="backdrop" x-show="open" x-transition>
 		<div class="modal">
 			<form
 				@submit="open = !open"
 				class="form"
 				x-data="{ openInput: '', high: '', low: '', close: '', volume: '', adj: '' }"
 				hx-post="/add"
+				hx-swap="afterbegin"
+				hx-target="#rows"
 			>
 				<header class="form-header">
 					<div class="form-title">Add Stock Data for the Day</div>

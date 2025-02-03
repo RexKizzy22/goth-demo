@@ -1,6 +1,6 @@
 # Hypermedia Driven Application using HTMX and GO
 
-This is a demo project showcasing the simplicity and efficiency of an application built using the GOTH stack.
+SP Index is a demo project showcasing the simplicity and efficiency of an application built using the GOTH stack.
 
 GOTH is an acronym for Go, [Templ](https://templ.guide/), and [HTMX](https://htmx.org/). It is often combined with Alpine.js and Tailwind CSS
 for client-side state management and rapid UI styling. Alpine.js can be swapped with other lightweight JavaScript
@@ -21,11 +21,10 @@ fragments of HTML to communicate between client and server rather than using JSO
 
 ## How to Run this App
 
-Easy-peasy. Ensure you have the **Go**, [Air](https://github.com/air-verse/air), and **Make** binaries installed in your machine and run these commands:
+Easy-peasy. Clone this repository and run the binary from the root of this repository
 
 ```shell
-go mod download
-make run
+./bin/main
 ```
 
 ## Project Set Up

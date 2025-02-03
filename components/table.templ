@@ -13,17 +13,9 @@ templ Table(rows []model.Row) {
 			<div class="row-item">Volume</div>
 			<div class="row-item">Adjacent Close</div>
 		</div>
-		<div class="rows">
+		<div id="rows" class="rows">
 			for _, row := range rows {
-				<div class="row">
-					<div class="row-item date">{ row.Date }</div>
-					<div class="row-item open">{ row.Open }</div>
-					<div class="row-item high">{ row.High }</div>
-					<div class="row-item low">{ row.Low }</div>
-					<div class="row-item close">{ row.Close }</div>
-					<div class="row-item volume">{ row.Volume }</div>
-					<div class="row-item adjClose">{ row.AdjClose }</div>
-				</div>
+				@TableRow(row)
 			}
 		</div>
 	</div>
