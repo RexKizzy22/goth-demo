@@ -34,9 +34,9 @@ func (h *Handler) Table(w http.ResponseWriter, r *http.Request) {
 
 	rr := len(h.state.Rows) - p.PageOffset
 	if rr > DEFAULT_PAGE_SIZE {
-		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
+		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)], p).Render(r.Context(), w)
 	} else {
-		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+rr)]).Render(r.Context(), w)
+		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+rr)], p).Render(r.Context(), w)
 	}
 }
 
@@ -51,10 +51,14 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 	p := util.Paginate(r, DEFAULT_PAGE_SIZE, rows)
 	ns := util.FilterStocks(rows, s)
 
-	if len(ns) > DEFAULT_PAGE_SIZE {
-		components.Table(ns[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
+	if len(ns) <= 0 {
+		components.NotFound(s).Render(r.Context(), w)
 	} else {
-		components.Table(ns).Render(r.Context(), w)
+		if len(ns) > DEFAULT_PAGE_SIZE {
+			components.Table(ns[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)], p).Render(r.Context(), w)
+		} else {
+			components.Table(ns, p).Render(r.Context(), w)
+		}
 	}
 }
 

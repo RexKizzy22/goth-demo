@@ -7,7 +7,7 @@ templ Navbar() {
 			<input
 				type="search"
 				name="search"
-				placeholder="Search by date"
+				placeholder="Search by date ( from 2014 - 2015 only )"
 				id="search"
 				hx-get="/search"
 				hx-trigger="keyup changed delay:500ms, search"
@@ -15,7 +15,7 @@ templ Navbar() {
 				hx-swap="outerHTML"
 			/>
 		</form>
-		<button class="addButton" @click="openForm = !openForm">
+		<button class="button addButton" @click="openForm = !openForm">
 			<span>&plus;</span>
 			Add
 		</button>

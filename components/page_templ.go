@@ -39,11 +39,7 @@ func Page(rows model.Rows, p *model.Pagination) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Table(rows).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = Pagination(p).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Table(rows, p).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

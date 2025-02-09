@@ -27,6 +27,14 @@ Easy-peasy. Clone this repository and run the binary from the root of this repos
 ./bin/main
 ```
 
+### Feature Set
+
+- Custom offset-based table pagination rendering 15 rows per page and 10 pages per pagination window.
+- A validated form modal to add a new table row.
+- Search by date functionality.
+- Custom toast notification.
+- A not-found search result.
+
 ## Project Set Up
 
 The project set up is an adaptation of [this very helpful guide](https://medium.com/ostinato-rigore/go-htmx-templ-tailwind-complete-project-setup-hot-reloading-2ca1ba6c28be) as I didn't make use of Tailwind CSS here.

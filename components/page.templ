@@ -23,8 +23,7 @@ templ Page(rows model.Rows, p *model.Pagination) {
 		<body class="container body" x-data="{ openForm: false }">
 			<div id="toast"></div>
 			@Navbar()
-			@Table(rows)
-			@Pagination(p)
+			@Table(rows, p)
 			@Form()
 		</body>
 	</html>

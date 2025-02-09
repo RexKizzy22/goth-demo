@@ -29,7 +29,7 @@ func Navbar() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"navbar\"><div style=\"font-size: 1.5rem;\">Stock Price Index</div><form class=\"search\"><input type=\"search\" name=\"search\" placeholder=\"Search by date\" id=\"search\" hx-get=\"/search\" hx-trigger=\"keyup changed delay:500ms, search\" hx-target=\".table\" hx-swap=\"outerHTML\"></form><button class=\"addButton\" @click=\"openForm = !openForm\"><span>&plus;</span> Add</button></nav>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"navbar\"><div style=\"font-size: 1.5rem;\">Stock Price Index</div><form class=\"search\"><input type=\"search\" name=\"search\" placeholder=\"Search by date ( from 2014 - 2015 only )\" id=\"search\" hx-get=\"/search\" hx-trigger=\"keyup changed delay:500ms, search\" hx-target=\".table\" hx-swap=\"outerHTML\"></form><button class=\"button addButton\" @click=\"openForm = !openForm\"><span>&plus;</span> Add</button></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
