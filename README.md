@@ -1,6 +1,6 @@
 # Hypermedia Driven Application using HTMX and GO
 
-SP Index is a demo project showcasing the simplicity and efficiency of an application built using the GOTH stack.
+Stock Price Index is a demo project showcasing the simplicity and efficiency of an application built using the GOTH stack.
 
 GOTH is an acronym for Go, [Templ](https://templ.guide/), and [HTMX](https://htmx.org/). It is often combined with Alpine.js and Tailwind CSS
 for client-side state management and rapid UI styling. Alpine.js can be swapped with other lightweight JavaScript
