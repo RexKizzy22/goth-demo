@@ -1,0 +1,21 @@
+previews:
+  generation: automatic
+
+services:
+  - type: web
+    runtime: go
+    name: stock-price-index
+    repo: https://github.com/RexKizzy22/goth-demo
+    numInstances: 1
+    region: frankfurt 
+    plan: free
+    branch: main 
+    buildCommand: go build -tags production -o ./bin/main main.go
+    startCommand: ./bin/main
+    autoDeploy: true
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: ENV
+        value: PRODUCTION
+      - key: APP_PORT
+        value: 8080
