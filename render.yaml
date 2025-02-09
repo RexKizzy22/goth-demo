@@ -13,7 +13,6 @@ services:
     buildCommand: go build -tags production -o ./bin/main main.go
     startCommand: ./bin/main
     autoDeploy: true
-    maxShutdownDelaySeconds: 30
     envVars:
       - key: ENV
         value: PRODUCTION
