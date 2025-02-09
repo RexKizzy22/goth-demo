@@ -1,19 +1,20 @@
 package components
 
 templ Form() {
-	<div class="backdrop" x-show="open" x-transition>
+	<div class="backdrop" x-show="openForm" x-cloak>
 		<div class="modal">
 			<form
-				@submit="open = !open"
+				@submit.prevent="openForm = !openForm"
 				class="form"
 				x-data="{ openInput: '', high: '', low: '', close: '', volume: '', adj: '' }"
 				hx-post="/add"
 				hx-swap="afterbegin"
 				hx-target="#rows"
+				@htmx:after-request="openInput = ''; high = ''; low = ''; close = ''; volume = ''; adj = '';"
 			>
 				<header class="form-header">
 					<div class="form-title">Add Stock Data for the Day</div>
-					<div class="form-close" @click="open = !open">&times;</div>
+					<div class="form-close" @click="openForm = !openForm">&times;</div>
 				</header>
 				<div class="add-input">
 					<label for="open-input">Opening Price</label>

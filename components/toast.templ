@@ -1,0 +1,10 @@
+package components 
+
+templ Toast(success, title, message string) {
+	<div id="toast-container" :class="toast-{success ? 'success' : 'error'}">
+		<div class="toast-content">
+			<h3 class="toast-title">{ title }</h3>
+			<p class="toast-message">{ message }</p>
+		</div>
+	</div>
+}

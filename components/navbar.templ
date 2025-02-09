@@ -5,17 +5,17 @@ templ Navbar() {
 		<div style="font-size: 1.5rem;">SP Index</div>
 		<form class="search">
 			<input
-				type="text"
-                name="search"
+				type="search"
+				name="search"
 				placeholder="Search by date"
 				id="search"
 				hx-get="/search"
-				hx-trigger="keyup changed delay:500ms"
+				hx-trigger="keyup changed delay:500ms, search"
 				hx-target=".table"
-                hx-swap="outerHTML"
+				hx-swap="outerHTML"
 			/>
 		</form>
-		<button class="addButton" @click="open = !open">
+		<button class="addButton" @click="openForm = !openForm">
 			<span>&plus;</span>
 			Add
 		</button>

@@ -3,6 +3,7 @@ package util
 import (
 	"encoding/csv"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -12,8 +13,23 @@ import (
 	"github.com/RexKizzy22/goth-demo/model"
 )
 
-func ReadCsv() ([][]string, error) {
-	f, err := os.Open("data/table.csv")
+const PAGES_PER_SLIDE = 10
+
+func LoadAppState() model.State {
+	stocks, err := readCsv("data/table.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	state := model.State{
+		Rows: parseStocks(&stocks),
+	}
+
+	return state
+}
+
+func readCsv(filename string) ([][]string, error) {
+	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +42,7 @@ func ReadCsv() ([][]string, error) {
 	return rows[1:], nil
 }
 
-func ParseStocks(stocks *[][]string) (rows model.Rows) {
+func parseStocks(stocks *[][]string) (rows model.Rows) {
 	for _, stock := range *stocks {
 		// date, _ := time.Parse(time.DateOnly, stock[0])
 		open, _ := strconv.ParseFloat(stock[1], 64)
@@ -80,16 +96,66 @@ func FilterStocks(stocks model.Rows, search string) (filteredStocks model.Rows) 
 	return
 }
 
-func Paginate(r *http.Request, size int) int {
+func Paginate(r *http.Request, size int, rows model.Rows) *model.Pagination {
+	rl := len(rows)
 	p, err := strconv.Atoi(r.FormValue("page"))
 	if err != nil {
 		p = 1
 	}
-	o := generateOffset(p, size)
 
-	return o
+	po := generatePageOffset(p, size)
+	pn := generateNumberOfPagesAndSlides(po, rl, size)
+	return generatePageAndSlideStats(pn)
 }
 
-func generateOffset(page int, size int) int {
+func generatePageOffset(page int, size int) int {
 	return (page - 1) * size
+}
+
+func generateNumberOfPagesAndSlides(pageOffset, rowLength, size int) *model.Pagination {
+	nop := getTotalPagesOrSlides(rowLength, size)
+	nos := getTotalPagesOrSlides(nop, PAGES_PER_SLIDE)
+
+	return &model.Pagination{
+		PageOffset: pageOffset,
+		NoOfPages:  nop,
+		NoOfSlides: nos,
+	}
+}
+
+func getTotalPagesOrSlides(total, size int) (noOfPagesOrSlides int) {
+	var r int
+	p := total / size
+
+	if total > size {
+		r = total % size
+	} else {
+		r = 0
+	}
+
+	if r > 0 {
+		noOfPagesOrSlides = p + 1
+	} else {
+		noOfPagesOrSlides = p
+	}
+
+	return noOfPagesOrSlides
+}
+
+func generatePageAndSlideStats(p *model.Pagination) *model.Pagination {
+	if p.CurrentSlide == 0 {
+		p.CurrentSlide = 1
+	}
+
+	return setSlideOffset(p)
+}
+
+func setSlideOffset(p *model.Pagination) *model.Pagination {
+	if p.CurrentSlide == 1 {
+		p.SlideOffset = p.CurrentSlide
+	} else {
+		p.SlideOffset = (PAGES_PER_SLIDE * (p.CurrentSlide - 1)) + 1
+	}
+
+	return p
 }

@@ -1,0 +1,60 @@
+package components
+
+import (
+	"fmt"
+	"github.com/RexKizzy22/goth-demo/model"
+	"github.com/RexKizzy22/goth-demo/util"
+	"strconv"
+)
+
+templ Pagination(p *model.Pagination) {
+	{{ hasNextSlide := p.HasNextSlide() }}
+	{{ hasPrevSlide := p.HasPrevSlide() }}
+	<nav class="pagination">
+		<div class="pagination-content">
+			<button
+				hx-get="/slide/prev"
+				hx-trigger="click"
+				hx-target=".pagination"
+				hx-swap="outerHTML"
+				if !hasPrevSlide {
+					disabled
+				}
+				class="has-next-page"
+			>
+				&laquo;
+			</button>
+			@PaginationSlide(p)
+			<button
+				hx-get="/slide/next"
+				hx-trigger="click"
+				hx-target=".pagination"
+				hx-swap="outerHTML"
+				if !hasNextSlide {
+					disabled
+				}
+				class="has-previous-page"
+			>
+				&raquo;
+			</button>
+		</div>
+	</nav>
+}
+
+templ PaginationSlide(p *model.Pagination) {
+	<ul class="pagination-slide">
+		for i := p.SlideOffset; i <= p.NoOfPages && i < p.SlideOffset+util.PAGES_PER_SLIDE; i++ {
+			<a href="#" id="page">
+				<li
+					hx-trigger="click"
+					hx-get={ fmt.Sprintf("/table?page=%d", i) }
+					hx-target=".table"
+					hx-swap="outerHTML"
+					class="page"
+				>
+					{ strconv.Itoa(i) }
+				</li>
+			</a>
+		}
+	</ul>
+}

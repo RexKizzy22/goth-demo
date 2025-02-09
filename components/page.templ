@@ -2,22 +2,29 @@ package components
 
 import "github.com/RexKizzy22/goth-demo/model"
 
-templ Page(rows model.Rows) {
+templ Page(rows model.Rows, p *model.Pagination) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>SP Index</title>
+			<link rel="stylesheet" href="/static/css/style.css"/>
 			<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
 			<script src="//unpkg.com/alpinejs" defer></script>
 			<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-			<link rel="stylesheet" href="/static/css/style.css"/>
+			<script src="/static/js/toast.js" defer></script>
+			<style>
+				[x-cloak] {
+					display: none;
+				}
+			</style>
 		</head>
-		<body class="container body" x-data="{ open: false }">
-			<div class="toast-container"></div>
+		<body class="container body" x-data="{ openForm: false }">
+			<div id="toast"></div>
 			@Navbar()
 			@Table(rows)
+			@Pagination(p)
 			@Form()
 		</body>
 	</html>
