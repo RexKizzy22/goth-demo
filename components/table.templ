@@ -2,7 +2,7 @@ package components
 
 import "github.com/RexKizzy22/goth-demo/model"
 
-templ Table(rows []model.Row, p *model.Pagination) {
+templ Table(rows []model.Row) {
 	<div class="table">
 		<div class="title row">
 			<div class="row-item">Date</div>
@@ -18,6 +18,5 @@ templ Table(rows []model.Row, p *model.Pagination) {
 				@TableRow(row)
 			}
 		</div>
-		@Pagination(p)
 	</div>
 }
