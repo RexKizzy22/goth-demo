@@ -13,6 +13,7 @@ import (
 	"github.com/RexKizzy22/goth-demo/model"
 )
 
+const DEFAULT_PAGE_SIZE = 15
 const PAGES_PER_SLIDE = 10
 
 func LoadAppState() model.State {
@@ -96,53 +97,72 @@ func FilterStocks(stocks model.Rows, search string) (filteredStocks model.Rows) 
 	return
 }
 
-func Paginate(r *http.Request, size int, rows model.Rows) *model.Pagination {
-	rl := len(rows)
+func Paginate(r *http.Request, size int, rl int) *model.Pagination {
+	pg := &model.Pagination{}
 	p, err := strconv.Atoi(r.FormValue("page"))
 	if err != nil {
 		p = 1
 	}
 
 	po := generatePageOffset(p, size)
-	pn := generateNumberOfPagesAndSlides(po, rl, size)
-	return generatePageAndSlideStats(pn)
+	nop := generateNumberOfPages(rl, size)
+
+	if rl < size {
+		return &model.Pagination{
+			CurrentSlide: 1,
+			PageOffset:   po,
+			NoOfSlides:   1,
+			SlideOffset:  1,
+			NoOfPages:    nop,
+		}
+	}
+
+	var s int
+	if nop > PAGES_PER_SLIDE {
+		s = PAGES_PER_SLIDE
+	} else {
+		s = nop
+	}
+	nos := calculateTotalPagesOrSlides(nop, s)
+	pg = generateSlideStats(pg)
+	pg.NoOfSlides = nos
+	pg.NoOfPages = nop
+	pg.PageOffset = po
+	return pg
+}
+
+func generateNumberOfPages(rl int, size int) (nop int) {
+	if rl > DEFAULT_PAGE_SIZE {
+		nop = calculateTotalPagesOrSlides(rl, size)
+	} else {
+		nop = 1
+	}
+	return
 }
 
 func generatePageOffset(page int, size int) int {
 	return (page - 1) * size
 }
 
-func generateNumberOfPagesAndSlides(pageOffset, rowLength, size int) *model.Pagination {
-	nop := getTotalPagesOrSlides(rowLength, size)
-	nos := getTotalPagesOrSlides(nop, PAGES_PER_SLIDE)
-
-	return &model.Pagination{
-		PageOffset: pageOffset,
-		NoOfPages:  nop,
-		NoOfSlides: nos,
-	}
-}
-
-func getTotalPagesOrSlides(total, size int) (noOfPagesOrSlides int) {
+func calculateTotalPagesOrSlides(total, size int) (p int) {
 	var r int
-	p := total / size
 
-	if total > size {
+	if total >= size {
 		r = total % size
+		p = total / size
 	} else {
 		r = 0
+		p = total
 	}
 
 	if r > 0 {
-		noOfPagesOrSlides = p + 1
+		return p + 1
 	} else {
-		noOfPagesOrSlides = p
+		return p
 	}
-
-	return noOfPagesOrSlides
 }
 
-func generatePageAndSlideStats(p *model.Pagination) *model.Pagination {
+func generateSlideStats(p *model.Pagination) *model.Pagination {
 	if p.CurrentSlide == 0 {
 		p.CurrentSlide = 1
 	}

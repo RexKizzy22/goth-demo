@@ -8,8 +8,6 @@ import (
 )
 
 templ Pagination(p *model.Pagination) {
-	{{ hasNextSlide := p.HasNextSlide() }}
-	{{ hasPrevSlide := p.HasPrevSlide() }}
 	<nav class="pagination">
 		<div class="pagination-content">
 			<button
@@ -17,7 +15,7 @@ templ Pagination(p *model.Pagination) {
 				hx-trigger="click"
 				hx-target=".pagination"
 				hx-swap="outerHTML"
-				if !hasPrevSlide {
+				if !p.HasPrevSlide() {
 					disabled
 				}
 				class="has-next-page"
@@ -30,7 +28,7 @@ templ Pagination(p *model.Pagination) {
 				hx-trigger="click"
 				hx-target=".pagination"
 				hx-swap="outerHTML"
-				if !hasNextSlide {
+				if !p.HasNextSlide() {
 					disabled
 				}
 				class="has-previous-page"
@@ -50,6 +48,7 @@ templ PaginationSlide(p *model.Pagination) {
 					hx-get={ fmt.Sprintf("/table?page=%d", i) }
 					hx-target=".table"
 					hx-swap="outerHTML"
+					hx-include="#search"
 					class="page"
 				>
 					{ strconv.Itoa(i) }

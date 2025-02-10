@@ -9,9 +9,9 @@ templ Navbar() {
 				name="search"
 				placeholder="Search by date ( from 2014 - 2015 only )"
 				id="search"
-				hx-get="/search"
+				hx-get="/main"
 				hx-trigger="keyup changed delay:500ms, search"
-				hx-target=".table"
+				hx-target=".main"
 				hx-swap="outerHTML"
 			/>
 		</form>

@@ -1,0 +1,14 @@
+package components
+
+import "github.com/RexKizzy22/goth-demo/model"
+
+templ Main(rows model.Rows, p *model.Pagination, s string) {
+	<main class="main">
+        if len(rows) == 0 {
+            @NotFound(s)
+        } else {
+            @Table(rows)
+            @Pagination(p)
+        }
+	</main>
+}

@@ -23,10 +23,12 @@ func main() {
 	http.Handle("GET /static/", http.FileServer(http.FS(public.StaticFiles)))
 
 	http.HandleFunc("GET /", handler.Index)
+	
+	http.HandleFunc("GET /refresh", handler.RefreshMain)
 
 	http.HandleFunc("GET /table", handler.Table)
-
-	http.HandleFunc("GET /search", handler.Search)
+	
+	http.HandleFunc("GET /main", handler.Main)
 
 	http.HandleFunc("GET /slide/next", handler.NextSlide)
 

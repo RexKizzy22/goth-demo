@@ -30,6 +30,7 @@ Easy-peasy. Clone this repository and run the binary from the root of this repos
 
 ## Feature Set
 
+- On start up, loads up a dataset containing stock prices between 2014 and 2015 from the file system, in memory.
 - Custom offset-based table pagination rendering 15 rows per page and 10 pages per pagination window.
 - A validated form modal to add a new table row.
 - Search by date functionality.

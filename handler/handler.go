@@ -10,8 +10,6 @@ import (
 	"github.com/RexKizzy22/goth-demo/util"
 )
 
-const DEFAULT_PAGE_SIZE = 15
-
 type Handler struct {
 	state *model.State
 }
@@ -23,43 +21,53 @@ func New(state *model.State) *Handler {
 }
 
 func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
-	h.state.Pagination = util.Paginate(r, DEFAULT_PAGE_SIZE, h.state.Rows)
+	l := len(h.state.Rows)
+	h.state.Pagination = util.Paginate(r, util.DEFAULT_PAGE_SIZE, l)
 	s := h.state
 	p := h.state.Pagination
-	components.Page(s.Rows[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)], p).Render(r.Context(), w)
+	components.Page(s.Rows[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)], p).Render(r.Context(), w)
 }
 
 func (h *Handler) Table(w http.ResponseWriter, r *http.Request) {
-	p := util.Paginate(r, DEFAULT_PAGE_SIZE, h.state.Rows)
+	p := util.Paginate(r, util.DEFAULT_PAGE_SIZE, len(h.state.Rows))
 
 	rr := len(h.state.Rows) - p.PageOffset
-	if rr > DEFAULT_PAGE_SIZE {
-		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
+	if rr > util.DEFAULT_PAGE_SIZE {
+		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
 	} else {
 		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+rr)]).Render(r.Context(), w)
 	}
 }
 
-func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Main(w http.ResponseWriter, r *http.Request) {
 	s := r.FormValue("search")
 	if s == "" {
-		http.Redirect(w, r, "/table", http.StatusSeeOther)
+		http.Redirect(w, r, "/refresh", http.StatusSeeOther)
 		return
 	}
 
-	rows := h.state.Rows
-	p := util.Paginate(r, DEFAULT_PAGE_SIZE, rows)
-	ns := util.FilterStocks(rows, s)
+	rows := util.FilterStocks(h.state.Rows, s)
+	l := len(rows)
+	p := util.Paginate(r, util.DEFAULT_PAGE_SIZE, l)
 
-	if len(ns) <= 0 {
-		components.NotFound(s).Render(r.Context(), w)
+	if l == 0 {
+		components.Main(rows, p, s).Render(r.Context(), w)
 	} else {
-		if len(ns) > DEFAULT_PAGE_SIZE {
-			components.Table(ns[p.PageOffset:(p.PageOffset+DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
+		rr := l - p.PageOffset
+		if rr > util.DEFAULT_PAGE_SIZE {
+			components.Main(rows[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)], p, s).Render(r.Context(), w)
 		} else {
-			components.Table(ns).Render(r.Context(), w)
+			components.Main(rows[p.PageOffset:(p.PageOffset+rr)], p, s).Render(r.Context(), w)
 		}
 	}
+}
+
+func (h *Handler) RefreshMain(w http.ResponseWriter, r *http.Request) {
+	l := len(h.state.Rows)
+	h.state.Pagination = util.Paginate(r, util.DEFAULT_PAGE_SIZE, l)
+	s := h.state
+	p := h.state.Pagination
+	components.Main(s.Rows[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)], p, "").Render(r.Context(), w)
 }
 
 func (h *Handler) Add(w http.ResponseWriter, r *http.Request) {
