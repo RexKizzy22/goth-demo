@@ -30,5 +30,6 @@ type Rows = []Row
 
 type State struct {
 	Rows       Rows
+	SearchResults Rows
 	Pagination *Pagination
 }

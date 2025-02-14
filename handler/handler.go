@@ -29,13 +29,26 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) Table(w http.ResponseWriter, r *http.Request) {
-	p := util.Paginate(r, util.DEFAULT_PAGE_SIZE, len(h.state.Rows))
+	s := r.FormValue("search")
+	if s == "" {
+		p := util.Paginate(r, util.DEFAULT_PAGE_SIZE, len(h.state.Rows))
 
-	rr := len(h.state.Rows) - p.PageOffset
+		rr := len(h.state.Rows) - p.PageOffset
+		if rr > util.DEFAULT_PAGE_SIZE {
+			components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
+		} else {
+			components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+rr)]).Render(r.Context(), w)
+		}
+		return
+	}
+
+	p := util.Paginate(r, util.DEFAULT_PAGE_SIZE, len(h.state.SearchResults))
+
+	rr := len(h.state.SearchResults) - p.PageOffset
 	if rr > util.DEFAULT_PAGE_SIZE {
-		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
+		components.Table(h.state.SearchResults[p.PageOffset:(p.PageOffset+util.DEFAULT_PAGE_SIZE)]).Render(r.Context(), w)
 	} else {
-		components.Table(h.state.Rows[p.PageOffset:(p.PageOffset+rr)]).Render(r.Context(), w)
+		components.Table(h.state.SearchResults[p.PageOffset:(p.PageOffset+rr)]).Render(r.Context(), w)
 	}
 }
 
@@ -47,6 +60,7 @@ func (h *Handler) Main(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rows := util.FilterStocks(h.state.Rows, s)
+	h.state.SearchResults = rows
 	l := len(rows)
 	p := util.Paginate(r, util.DEFAULT_PAGE_SIZE, l)
 
